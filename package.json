@@ -1,0 +1,40 @@
+{
+	"name": "MusicPlayer",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "node scripts/dev.js drawboard -f global",
+		"build": "node scripts/build.js drawboard -f esm"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.22.19",
+		"@babel/plugin-transform-react-jsx": "^7.22.15",
+		"@babel/plugin-transform-typescript": "^7.22.15",
+		"@babel/preset-env": "^7.23.2",
+		"@babel/preset-typescript": "^7.23.2",
+		"@types/react": "^18.2.21",
+		"@types/react-dom": "^18.2.7",
+		"esbuild": "^0.19.3",
+		"esbuild-sass-plugin": "^2.15.0",
+		"konva": "^9.2.3",
+		"minimist": "^1.2.8",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"typescript": "^5.2.2"
+	},
+	"buildOptions": {
+		"name": "DrawBoard",
+		"formats": [
+			"global",
+			"cjs",
+			"esm-bundler"
+		]
+	},
+	"jsxFactory": "h",
+	"jsxFragmentFactory": "Fragment"
+}

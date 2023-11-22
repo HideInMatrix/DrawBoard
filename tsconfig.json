@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"outDir": "dist", //输出目录
+		"sourceMap": true, //采用sourceMap
+		"target": "es2016", //目标语法
+		"module": "esnext", //模块格式
+		"moduleResolution": "node", //模块解析方式
+		"strict": true, //严格模式
+		"resolveJsonModule": true, //解析JSON模块
+		"esModuleInterop": true, //允许es6语法引入commonjs模块
+		"jsx": "preserve", //js不转译
+		"lib": ["esnext", "dom"], //支持的类库esnext及dom
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.jsx"],
+	"exclude": []
+}
