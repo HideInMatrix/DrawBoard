@@ -153,6 +153,56 @@ class DrawCanvas {
 		this.thumbImage();
 	}
 
+	drawAxis(name: string = "") {
+		// 清除之前的坐标轴
+		let nodes = this.baseLayer?.find(".axis");
+		nodes?.forEach((item) => item.destroy());
+		// 获取画布中心坐标
+		const centerX = this.group!.x();
+		const centerY = this.group!.y();
+
+		// 绘制X轴
+		const xAxis = new Konva.Line({
+			points: [-centerX, 0, centerX, 0],
+			stroke: "red",
+			strokeWidth: 1,
+			name: "axis", // 添加一个名称以便后续删除
+		});
+
+		// 添加X轴的名称
+		const xAxisName = new Konva.Text({
+			x: centerX / 2 + 10, // 偏移一些距离以防止与坐标轴重叠
+			y: 5,
+			text: `X轴${centerX}px`,
+			fontSize: 12,
+			fill: "black",
+		});
+
+		// 绘制Y轴
+		const yAxis = new Konva.Line({
+			points: [0, -centerY, 0, centerY],
+			stroke: "red",
+			strokeWidth: 1,
+			name: "axis", // 添加一个名称以便后续删除
+		});
+
+		// 添加Y轴的名称
+		const yAxisName = new Konva.Text({
+			x: 5,
+			y: centerY / 2 + 10, // 偏移一些距离以防止与坐标轴重叠
+			text: `Y轴${centerY}px`,
+			fontSize: 12,
+			fill: "black",
+		});
+
+		// 将坐标轴添加到组
+		// const axisGroup = new Konva.Group();
+		this.group?.add(xAxis, xAxisName, yAxis, yAxisName);
+
+		// 重新绘制图层
+		this.baseLayer?.batchDraw();
+	}
+
 	drawShape(type: CorrectTypesEnum) {
 		this.canPaint = false;
 		if (this.lastOptions[type] && this.lastSymbol === type) {
@@ -734,59 +784,21 @@ class DrawCanvas {
 			x: +(this.groupScale / 10).toFixed(2),
 			y: +(this.groupScale / 10).toFixed(2),
 		});
-		let tr = new Konva.Transformer({
-			nodes: [this.group!],
-			x: +(this.group!.width() / 2).toFixed(2),
-			y: +(this.group!.height() / 2).toFixed(2),
-			borderStroke: "#f2849e",
-			borderStrokeWidth: 0,
-			borderDash: [5],
-			resizeEnabled: false,
-			rotateEnabled: false,
-		});
-
-		this.baseLayer!.add(tr);
 		this.group!.draggable(true);
-		tr.forceUpdate();
-		this.baseLayer!.draw();
-		let transList = this.baseStage!.find("Transformer");
+		// 获得包裹图片的外接矩形，然后根据外接矩形来计算图片的位置和大小
+		let boundingBox = this.group!.getClientRect();
 
-		let relativePosition = { x: 0, y: 0, width: 0, height: 0 };
-		if (this.group!.rotation() == 0) {
-			relativePosition.x = tr.x();
-			relativePosition.y = tr.y();
-			relativePosition.width = tr.width();
-			relativePosition.height = tr.height();
-		} else if (this.group!.rotation() == 90) {
-			relativePosition.x = tr.x() - tr.height();
-			relativePosition.y = tr.y();
-			relativePosition.width = tr.height();
-			relativePosition.height = tr.width();
-		} else if (this.group!.rotation() == 180) {
-			relativePosition.x = tr.x() - tr.width();
-			relativePosition.y = tr.y() - tr.height();
-			relativePosition.width = tr.width();
-			relativePosition.height = tr.height();
-		} else if (this.group!.rotation() == 270) {
-			relativePosition.x = tr.x();
-			relativePosition.y = tr.y() - tr.width();
-			relativePosition.width = tr.height();
-			relativePosition.height = tr.width();
-		}
-		transList.forEach((element) => {
-			element.destroy();
-		});
 		let ratio = () => {
 			return 1;
 		};
 		let dataURL = this.baseStage!.toDataURL({
 			mimeType: "image/jpeg",
-			x: relativePosition.x,
-			y: relativePosition.y,
+			x: boundingBox.x,
+			y: boundingBox.y,
 			quality: 0.5,
 			pixelRatio: ratio(),
-			width: relativePosition.width,
-			height: relativePosition.height,
+			width: Math.floor(boundingBox.width),
+			height: Math.floor(boundingBox.height),
 		});
 
 		return dataURL;
