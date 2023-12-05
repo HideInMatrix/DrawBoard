@@ -606,33 +606,34 @@ class DrawCanvas {
 		this.group?.draggable(!this.canPaint);
 	}
 
+	scaleImage(
+		imWidth: number,
+		imHeight: number,
+		caWidth: number,
+		caHeight: number
+	) {
+		if (imWidth <= caWidth && imHeight <= caHeight) {
+			return {
+				width: imWidth,
+				height: imHeight,
+			};
+		} else {
+			let scale = Math.min(caWidth / imWidth, caHeight / imHeight);
+			return {
+				width: imWidth * scale,
+				height: imHeight * scale,
+			};
+		}
+	}
+
 	drawImage(params: drawImageParams) {
 		// 绘画图片
 		let image: Konva.Image;
 		let { x, y, url, width, height } = params;
 		let imageObj = new Image();
 		imageObj.src = url;
-		let scaleImage = (
-			imWidth: number,
-			imHeight: number,
-			caWidth: number,
-			caHeight: number
-		) => {
-			if (imWidth <= caWidth && imHeight <= caHeight) {
-				return {
-					width: imWidth,
-					height: imHeight,
-				};
-			} else {
-				let scale = Math.min(caWidth / imWidth, caHeight / imHeight);
-				return {
-					width: imWidth * scale,
-					height: imHeight * scale,
-				};
-			}
-		};
 		imageObj.onload = () => {
-			let scaleimage = scaleImage(
+			let scaleimage = this.scaleImage(
 				imageObj.naturalWidth,
 				imageObj.naturalHeight,
 				this.canvasWidth,
