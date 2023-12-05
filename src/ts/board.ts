@@ -618,27 +618,16 @@ class DrawCanvas {
 			caWidth: number,
 			caHeight: number
 		) => {
-			// console.log(imWidth, imHeight, caWidth, caHeight);
-			//图片 宽高，画布宽高
-			if (imWidth > caWidth && imHeight > caHeight) {
-				return {
-					width: (imWidth * caHeight) / imHeight,
-					height: caHeight,
-				};
-			} else if (imWidth > caWidth && imHeight < caHeight) {
-				return {
-					width: caWidth,
-					height: (imHeight * caWidth) / imWidth,
-				};
-			} else if (imWidth < caWidth && imHeight > caHeight) {
-				return {
-					width: (imWidth * caHeight) / imHeight,
-					height: caHeight,
-				};
-			} else {
+			if (imWidth <= caWidth && imHeight <= caHeight) {
 				return {
 					width: imWidth,
 					height: imHeight,
+				};
+			} else {
+				let scale = Math.min(caWidth / imWidth, caHeight / imHeight);
+				return {
+					width: imWidth * scale,
+					height: imHeight * scale,
 				};
 			}
 		};
