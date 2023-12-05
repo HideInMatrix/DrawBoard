@@ -645,6 +645,7 @@ class DrawCanvas {
 				scaleWidth: scaleimage.width,
 				scaleHeight: scaleimage.height,
 			};
+
 			image = new Konva.Image({
 				x: -scaleimage.width / 2,
 				y: -scaleimage.height / 2,
