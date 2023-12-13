@@ -722,14 +722,19 @@ class DrawCanvas {
 	}
 
 	getRelativePointerPosition() {
+		// 获取当前画布上的指针位置
 		const pos = this.baseStage!.getPointerPosition()!;
+		// 获取图形的绝对变换矩阵，包含了位置、旋转和缩放等信息
 		const absTransform = this.group!.getAbsoluteTransform();
-
+		// 创建反转的变换矩阵，用于将指针位置从画布坐标系转换回图形坐标系
 		const invertedTransform = new Konva.Transform(
 			absTransform.getMatrix()
 		).invert();
-
+		// 使用反转矩阵将指针位置转换到图形坐标系
 		const shapePos = invertedTransform.point(pos);
+		// 返回相对于图形的坐标位置，考虑了图形的位置、旋转和缩放等变换
+		// console.log(pos, absTransform.getMatrix());
+
 		return shapePos;
 	}
 
@@ -776,7 +781,7 @@ class DrawCanvas {
 		});
 		this.group!.draggable(true);
 		// 获得包裹图片的外接矩形，然后根据外接矩形来计算图片的位置和大小
-		let boundingBox = this.group!.getClientRect();
+		let boundingBox = this.baseLayer!.getClientRect();
 
 		let ratio = () => {
 			return 1;
