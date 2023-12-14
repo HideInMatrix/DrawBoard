@@ -1,7 +1,7 @@
 /*
  * @Author: David
  * @Date: 2022-05-10 11:13:14
- * @LastEditTime: 2023-11-06 14:27:08
+ * @LastEditTime: 2023-12-14 15:12:55
  * @LastEditors: David
  * @Description: 打包运行的脚本
  * @FilePath: /DrawBoard/scripts/dev.js
@@ -34,72 +34,10 @@ const watchBuild = () => ({
     });
   },
 });
-const jsxTransform = () => ({
-  name: "jsx-transform",
-  setup(build) {
-    const fs = require("fs");
-    const babel = require("@babel/core");
-    const plugin = require("@babel/plugin-transform-react-jsx").default(
-      {},
-      { runtime: "automatic" }
-    );
-    const presetEnv = require('@babel/preset-env');
-    const presetTypescript = require('@babel/preset-typescript');
-
-
-    build.onLoad({ filter: /\.[j|t]sx$/ }, async (args) => {
-      const jsx = await fs.promises.readFile(args.path, "utf8");
-
-      const result = babel.transformSync(jsx, { plugins: [plugin], presets: [presetEnv, presetTypescript], filename: args.path });
-      return { contents: result.code };
-    });
-  },
-});
-
-const fs = require("fs");
-let idPrefix = 'icon'
-const svgTitle = /<svg([^>+].*?)>/
-const clearHeightWidth = /(width|height)="([^>+].*?)"/g
-const hasViewBox = /(viewBox="[^>+].*?")/g
-const clearReturn = /(\r)|(\n)/g
-const findSvgFile = async (dir) => {
-  const content = await fs.promises.readFile(dir, "utf8")
-  const fileName = dir.replace(/^.*[\/]/, "").replace(/\.[^.]*$/, "")
-  const svg = content.toString().replace(clearReturn, '').replace(svgTitle, ($1, $2) => {
-    let width = '0'
-    let height = '0'
-    let content = $2.replace(
-      clearHeightWidth,
-      (s1, s2, s3) => {
-        if (s2 === 'width') {
-          width = s3
-        } else if (s2 === 'height') {
-          height = s3
-        }
-        return ''
-      }
-    )
-    if (!hasViewBox.test($2)) {
-      content += `viewBox="0 0 ${width} ${height}"`
-    }
-    return `<symbol id="${idPrefix}-${fileName}" ${content}>`
-  }).replace('</svg>', '</symbol>')
-  return { svg, fileName }
-}
-
-const svgBuilder = () => ({
-  name: "svg-builder",
-  setup(build) {
-    build.onLoad({ filter: /\.svg$/ }, async (args) => {
-      const path = args.path;
-      let { svg, fileName } = await findSvgFile(path)
-      let content = `export default  \`${svg}\`;`;
-      return { contents: content }
-    });
-  },
-});
 
 const cssPlugin = require("esbuild-sass-plugin");
+const { svgBuilder } = require("../plugins/svgBuild")
+const { jsxTransform } = require("../plugins/jsxTransform")
 //esbuild
 //天生就支持ts
 context({
