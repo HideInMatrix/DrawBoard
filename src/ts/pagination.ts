@@ -45,6 +45,7 @@ export class Pagination {
 
 		for (let index = 0; index < pageNumber; index++) {
 			let navItem = document.createElement("li");
+			// 此处根据父元素的dataset属性增加，感觉不是很优雅，目前没想到更好的方法
 			let parentDataset = _pagination.dataset;
 			for (let [k, v] of Object.entries(parentDataset)) {
 				if (k[0] === "v") {

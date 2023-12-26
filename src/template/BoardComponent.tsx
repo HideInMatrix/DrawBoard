@@ -38,6 +38,14 @@ function createCanvas({
 		callbackFn: { drawBackFn, textActiveFn },
 	});
 	_canvas.canvasRef.setAttribute("data-index", String(index + 1));
+	let parentDataset = middleContainer?.dataset || "";
+	for (let [k, v] of Object.entries(parentDataset)) {
+		if (k[0] === "v") {
+			let _k = k.slice(1);
+			_k = _k.toLowerCase();
+			_canvas.canvasRef.setAttribute(`data-v-${_k}`, "");
+		}
+	}
 	middleContainer.appendChild(_canvas.canvasRef);
 	_canvas.initBoard({
 		width,
