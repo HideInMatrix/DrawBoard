@@ -1,8 +1,7 @@
 import reactDom from "react-dom/client";
-import React, { createRef, useEffect } from "react";
+import React, { createRef } from "react";
 import { Index } from "@/template/BoardComponent";
 import { svgContent } from "@/assets/icon";
-import "@/assets/css/base.scss";
 import "@/assets/css/panel.scss";
 
 type AppendedDom = string; // 挂载在哪个dom上

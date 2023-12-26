@@ -1,25 +1,3 @@
-const types = require("@babel/types");
-const addProperty = () => ({
-  visitor: {
-    JSXOpeningElement(path) {
-      const { name, attributes } = path.node;
-      let flag = !attributes.some(
-        (attr) =>
-          attr.type === "JSXAttribute" &&
-          attr.name.name === "class"
-      )
-      if (flag) {
-        // 添加属性到元素
-        path.node.attributes.push(
-          types.jsxAttribute(
-            types.jsxIdentifier(`data-v-${new Date().getTime()}`),
-            types.stringLiteral("true")
-          )
-        );
-      }
-    },
-  },
-})
 const jsxTransform = () => ({
   name: "jsx-transform",
   setup(build) {
@@ -32,8 +10,9 @@ const jsxTransform = () => ({
     );
     const presetEnv = require('@babel/preset-env');
     const presetTypescript = require('@babel/preset-typescript');
+    const { addProperty } = require("./cssAttribute");
 
-    build.onLoad({ filter: /\.[j|t]sx$/ }, async (args) => {
+    build.onLoad({ filter: /(?:\.jsx|\.tsx)$/ }, async (args) => {
       const jsx = await fs.promises.readFile(args.path, "utf8");
       const result = babel.transformSync(jsx, {
         plugins: [plugin, addProperty()], presets: [presetEnv, presetTypescript], filename: args.path

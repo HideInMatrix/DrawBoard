@@ -45,6 +45,12 @@ export class Pagination {
 
 		for (let index = 0; index < pageNumber; index++) {
 			let navItem = document.createElement("li");
+			let parentDataset = _pagination.dataset;
+			for (let [k, v] of Object.entries(parentDataset)) {
+				let _k = k.slice(1);
+				_k = _k.toLowerCase();
+				navItem.setAttribute(`data-v-${_k}`, "");
+			}
 			navItem.className = `pagination-item`;
 			navItem.setAttribute("data-page", index.toString());
 			navItem.textContent = (index + 1).toString();

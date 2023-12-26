@@ -4,7 +4,7 @@
   display: flex;
 }
 
-// 控制面板的css
+/* 控制面板的css */
 .panel-item {
   display: flex;
   flex-wrap: wrap;
@@ -56,14 +56,13 @@
 .panel-wrapper {
   width: 202px;
   min-width: 202px;
-  // height: 100%;
   padding: 10px;
 }
 
-// 控制面板的Css 结束
+/* 控制面板的Css 结束 */
 
 
-// canvas-外壳样式
+/* canvas-外壳样式 */
 .canvas-list {
   flex: 1 1 auto;
   position: relative;
@@ -83,10 +82,10 @@
   width: 100%;
 }
 
-// canvas-外壳样式结束
+/* canvas-外壳样式结束 */
 
 
-// 页码的样式
+/* 页码的样式 */
 .pagination-list {
   display: flex;
   align-items: center;
@@ -120,4 +119,4 @@
   background-color: #5979EA;
 }
 
-// 页码的样式结束
+/*页码的样式结束*/

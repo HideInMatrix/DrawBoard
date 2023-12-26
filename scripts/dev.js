@@ -1,7 +1,7 @@
 /*
  * @Author: David
  * @Date: 2022-05-10 11:13:14
- * @LastEditTime: 2023-12-14 15:12:55
+ * @LastEditTime: 2023-12-26 10:04:57
  * @LastEditors: David
  * @Description: 打包运行的脚本
  * @FilePath: /DrawBoard/scripts/dev.js
@@ -38,6 +38,8 @@ const watchBuild = () => ({
 const cssPlugin = require("esbuild-sass-plugin");
 const { svgBuilder } = require("../plugins/svgBuild")
 const { jsxTransform } = require("../plugins/jsxTransform")
+const { cssScopedPlugin } = require("../plugins/cssAttribute")
+
 //esbuild
 //天生就支持ts
 context({
@@ -48,7 +50,7 @@ context({
   format: outputFormat, //输出格式
   globalName: "DrawBoard", //打包全局名，上次在package.json中自定义的名字
   platform: format === "cjs" ? "node" : "browser", //项目运行的平台
-  plugins: [watchBuild(), jsxTransform(), cssPlugin.sassPlugin(), svgBuilder()],
+  plugins: [watchBuild(), jsxTransform(), cssScopedPlugin(), cssPlugin.sassPlugin(), svgBuilder()],
   jsxFactory: "h",
   jsxFragment: "Fragment",
   loader: {
