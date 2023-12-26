@@ -62,7 +62,6 @@ const addProperty = () => ({
 
       if (flag) {
         // 添加属性到元素
-        console.log(path.node, '1234\n');
         path.node.attributes.push(
           types.jsxAttribute(
             types.jsxIdentifier(`data-v-${generateStr}`),
