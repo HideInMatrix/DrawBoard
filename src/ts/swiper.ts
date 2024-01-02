@@ -92,6 +92,7 @@ export class Swiper {
 		this.container.removeEventListener(`mouseleave`, () => {
 			this.startAutoSlide();
 		});
+		this.observer.disconnect();
 	}
 
 	handleSlideDeleted(deletedSlide: HTMLElement) {

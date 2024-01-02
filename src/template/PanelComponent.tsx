@@ -1,7 +1,7 @@
 /*
  * @Author: David
  * @Date: 2023-11-02 10:31:59
- * @LastEditTime: 2023-11-15 14:55:41
+ * @LastEditTime: 2024-01-02 15:37:37
  * @LastEditors: David
  * @Description: 控制面板
  * @FilePath: /DrawBoard/src/template/PanelComponent.tsx

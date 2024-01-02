@@ -121,14 +121,13 @@ export const Index = forwardRef(({ images }: { images: any[] }, ref) => {
 		}
 		setCurrentCanvas(() => canvases[currentIndex]);
 		// swiperWatcher?.slideTo(currentIndex);
-	}, [currentIndex]);
+	}, [currentIndex, canvases]);
 
 	useEffect(() => {
 		if (images.length === 0) {
 			return;
 		}
 		clearBaseStage(stageRef.current);
-
 		if (stageRef.current && canvasListRef.current) {
 			// 组件完成了渲染的时候开始生存组件
 			for (let i = 0; i < images.length; i++) {
