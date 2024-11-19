@@ -6,7 +6,7 @@ const hasViewBox = /(viewBox="[^>+].*?")/g
 const clearReturn = /(\r)|(\n)/g
 const findSvgFile = async (dir) => {
   const content = await fs.promises.readFile(dir, "utf8")
-  const fileName = dir.replace(/^.*[\/]/, "").replace(/\.[^.]*$/, "")
+  const fileName = dir.replace(/^.*[\\\/]/, "").replace(/\.[^.]*$/, "")
   const svg = content.toString().replace(clearReturn, '').replace(svgTitle, ($1, $2) => {
     let width = '0'
     let height = '0'

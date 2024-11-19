@@ -465,26 +465,22 @@ class DrawCanvas {
 		};
 	}
 
-	rotate(action: RotateEventsEnum) {
+	rotate(action: RotateEventsEnum, angle: number = 45) {
 		this.canPaint = false;
 		this.needTextArea = false;
 		this.addHistory(this.group?.clone());
 		this.group!.draggable(true);
 		document.getElementById("textFont")?.classList.remove("active");
-		switch (action) {
-			case RotateEventsEnum.LEFT:
-				this.groupDegree -= 90;
-				this.groupDegree = this.groupDegree % 360 == 0 ? 0 : this.groupDegree;
-				this.group?.setAttr("rotation", this.groupDegree);
-				// this.rotateGroup(this.groupDegree);
 
-				break;
-			case RotateEventsEnum.RIGHT:
-				this.groupDegree += 90;
-				this.groupDegree = this.groupDegree % 360 == 0 ? 0 : this.groupDegree;
-				this.group?.setAttr("rotation", this.groupDegree);
-				break;
+		if (action === RotateEventsEnum.LEFT) {
+			this.groupDegree -= angle;
+		} else if (action === RotateEventsEnum.RIGHT) {
+			this.groupDegree += angle;
 		}
+		this.groupDegree = ((this.groupDegree % 360) + 360) % 360; // Normalize to range [0, 360)
+
+		this.group?.setAttr("rotation", this.groupDegree);
+		this.baseLayer?.batchDraw();
 	}
 
 	thumbImage() {
